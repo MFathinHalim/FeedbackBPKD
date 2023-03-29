@@ -1,0 +1,418 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>Feedback!</title>
+</head>
+<style>
+    @font-face {
+    font-family: 'Comicsans';
+    src: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+  @media print {
+    html, body {
+       display: none;  /* hide whole page */
+    }
+}
+@import url(https://fonts.googleapis.com/css?family=Khula:700);
+html {
+    scroll-behavior: smooth
+}
+.center {
+    margin: auto;
+    max-width: 500px;
+}
+body {
+
+
+  /*font-family:'Courier New', Courier, monospace;*/
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: #6D1A36;
+  background-color: #B1B695;
+  
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;    
+  font-size: 4vw;
+  text-align: center;
+  animation: fadeInAnimation ease 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.reveal{
+    position: relative;
+    transform: translateY(150px);
+    opacity: 0;
+    transition: 2s all ease;
+    animation-play-state: paused;
+    animation-delay: calc(var(--scroll) * -1s);
+  }
+  .reveal.active{
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
+}
+
+.console-container {
+ 
+  font-size:3vw;
+  text-align:center;
+  height:3vw;
+  color:#D65A31;
+  
+}
+
+
+#Rating {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
+    background-color: #53917E;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+    margin-left: 5px;
+    position:sticky;
+    
+}
+
+#Ratings {
+    flex-grow: 1;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
+    background-color: #393E46;
+    border-radius: 24px;
+    
+    padding: 10px;
+    margin-top: 20px;
+    margin: 20px;
+    
+}
+.card4 {
+    opacity: 0;
+    flex-grow: 1;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
+    background-color: #272121;
+    border-radius: 24px;
+    padding: 10px;
+    margin-top: 20px;
+    margin: 20px;
+    
+}
+
+button{
+    flex: 1 1 0px;
+    flex-flow: wrap;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
+    background-color: #63535B;
+    color:#EEEEEE;
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 3vw;
+    flex-basis: 25%;
+    transition: all .2s ease-in-out;
+    border:none;
+    opacity:1;        
+}
+img:hover{
+    opacity:0.8;
+    -webkit-transform: scale(2);
+    -ms-transform: scale(2);
+    transform: scale(2);
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+img:active{
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+.imgland{
+    margin-top: 10px;
+    rotate : -90deg;
+      width: 15vw;
+      border-radius: 24px;
+      transition: all .2s ease-in-out;
+      
+  }
+  .imgland:hover{
+      opacity:0.8;
+      -webkit-transform: scale(2);
+    -ms-transform: scale(2);
+    transform: scale(2);
+  }
+  #fotosekolah{
+    margin-top:10px;
+    width: 50vw;
+
+    border-radius: 24px;
+    transition: all .2s ease-in-out;
+}
+.container {
+    width: 800px;
+    border: 2px solid black;
+    margin: 0 auto;
+  }
+  
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+  }
+  
+  .box {
+    opacity: 0;
+    flex-basis: 25%;
+    text-align: center;
+    flex-grow: 1;
+
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
+    background-color: #414750;
+    border-radius: 24px;
+    margin-top: 20px;
+  }
+
+#content {
+    display: flex;
+    flex-direction: column;
+}
+
+button:hover{
+    opacity:0.8;
+    transform: scale(1.1);
+}
+#logo{
+    box-shadow: 0 0px 0px 0 #15133c00;
+}
+img{
+    margin-top:10px;
+      width: 24vw;
+      border-radius: 24px;
+      transition: all .2s ease-in-out;
+      
+}
+
+strong{
+    color:#D65A31;
+}
+    
+#oren{
+    color:orange;
+}
+a{
+    text-decoration: none;
+}
+button:active{transform: scale(0.9);}
+@import url(https://fonts.googleapis.com/css?family=Khula:700);
+@media screen and (max-width: 408px) {
+    h1,h2,a{
+        font-size: 6vw;
+    }
+    img:hover{
+        opacity:0.8;
+        -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+        transform: scale(1.5);
+    }
+    #fotosekolah{
+        width: 60vw;
+    }
+    img{
+        width: 10vw;
+    }
+    body {
+        font-size: 1vw;
+    }
+    button{
+        height:40vw;
+        width: 50vw;
+
+        font-size:4vw;
+    }
+    #Toggle{
+        height:fit-content;
+        width: fit-content;
+        font-size: 4vw;
+    }
+    header{
+        font-size: 1vw;
+    }
+    img{
+        width: 80vw;
+    }
+
+    button:active{transform: scale(0.9);}
+    article form{
+   
+       margin: 10px;
+    }
+    article{
+        overflow-x: scroll;
+    }
+ }
+
+
+ @media screen and (min-width: 409px){
+    article{
+      display: flex;
+        align-items: center;
+        justify-content: center;
+      
+    }
+
+    img:hover{
+        opacity:0.8;
+        -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+        transform: scale(1.5);
+    }
+    #fotosekolah{
+        width: 60vw;
+    }
+    img{
+        width: 10vw;
+    }
+    body {
+        font-size: 1vw;
+    }
+    button{
+        height:200px;
+        width: max-content;
+        font-size:2vw;
+      
+    }
+    #Toggle{
+        height:fit-content;
+        width: fit-content;
+        font-size: 1vw;
+    }
+    header{
+        font-size: 1vw;
+    }
+    img{
+        width: 17vw;
+    }
+
+    button:active{transform: scale(0.9);}
+ }
+
+ article form{
+
+    margin: 10px;
+ }
+</style>
+<body>
+    <div class="center">
+        <img src="bpkd-logo.png"/>
+        <h1>Apakah anda puas dengan pelayanan kami?</h1>
+        <article>
+            <form action="/Sangat" method="post" enctype="multipart/form-data">
+                <button type="Submit">😍Sangat!</button>
+            </form>
+            <form action="/Puas" method="post" enctype="multipart/form-data">
+                <button>😃Puas!</button>
+            </form>
+            <form action="/Standar" method="post" enctype="multipart/form-data">
+                <button>😊Standar</button>
+            </form>
+            <form action="/Kurang" method="post" enctype="multipart/form-data">
+                <button>😐Kurang</button>
+            </form>
+            <form action="Tidak" method="post" enctype="multipart/form-data">
+                <button>😠Tidak</button>
+            </form>
+        </article>
+        <button onclick="HideShow()" id="Toggle">Show Feedback</button>
+        <article id="Rating" style="display:none;">
+
+    <% data.forEach(element => { %>
+        
+        <h2 class="Ratings" id="Sangat">😍 Sangat Puas = <%= element.Sangat %> </h2>
+        <h2 class="Ratings" id="Puas">😃 Puas = <%= element.Puas %> </h2>
+        <h2 class="Ratings" id="Standar">😊 Standar = <%= element.Standar %> </h2>
+        <h2 class="Ratings" id="Kurang">😐 Kurang Puas = <%= element.Kurang %> </h2>
+        <h2 class="Ratings" id="Tidak">😠 Tidak Puas = <%= element.Tidak %> </h2>
+        <% }) %>
+        <div id="piechart"></div>
+        
+
+</article>
+
+</div>
+
+</body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script>
+    
+    // Load google charts
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    
+    // Draw the chart and set the chart values
+    function drawChart() {
+  var data1 = JSON.parse(decodeURIComponent("<%= encodeURIComponent(JSON.stringify(data)) %>"));
+  console.log(data1[0].Puas)
+  var data = google.visualization.arrayToDataTable([
+    ['Task', 'Value'],
+    ['Sangat', data1[0].Sangat],
+    ['Puas', data1[0].Puas],
+    ['Standar', data1[0].Standar],
+    ['Kurang', data1[0].Kurang],
+    ['Tidak Puas', data1[0].Tidak]
+  ]);
+
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  var options = {
+  'backgroundColor': '#53917E'
+};
+  chart.draw(data, options);
+}
+</script>
+<script>
+    
+    var x = document.getElementById("Rating");
+    function HideShow(){
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            document.getElementById("Toggle").innerHTML = "Hide Feedback";
+        } else {
+            x.style.display = "none";
+            document.getElementById("Toggle").innerHTML = "Show Feedback"; 
+        }
+    }
+</script>
+
+<footer>
+    <br>
+    <a href="https://doma.mfathinhalim.repl.co/">Created By M.Fathin Halim</a>
+</footer>
+</html>
