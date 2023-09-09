@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="initial-scale=1.0" />
+    <title>Feedback List</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  </head>
+  <style>
+    .active {
+      background-color: rgb(154, 139, 224) !important;
+      color: white !important;
+    }
+
+    .btn-lg {
+      border-radius: 40px;
+    }
+  </style>
+  <body>
+    <div class="container mt-5">
+      <button
+        id="backButton"
+        type="button"
+        class="btn btn-secondary mt-3 rounded-lg ml-1"
+        onclick="goBack()">
+        <i class="fa fa-arrow-left"></i> Back
+      </button>
+
+      <h1 class="text-center">Feedback List</h1>
+
+      <% data.forEach((element, index) => { %>
+      <div class="saran-container">
+        <h3><%= element.Bulan %> / <%= element.Tahun %></h3>
+        <h4 class="Ratings" id="Sangat">
+          😍 Sangat Puas = <%= element.Sangat %>
+        </h4>
+        <h4 class="Ratings" id="Puas">😃 Puas = <%= element.Puas %></h4>
+        <h4 class="Ratings" id="Standar">
+          😊 Standar = <%= element.Standar %>
+        </h4>
+        <h4 class="Ratings" id="Kurang">
+          😐 Kurang Puas = <%= element.Kurang %>
+        </h4>
+        <h4 class="Ratings" id="Tidak">😠 Tidak Puas = <%= element.Tidak %></h4>
+        <button
+          class="btn btn-primary mt-3 rounded-lg show-saran-btn"
+          onclick="toggleSaran(this, '<%= element.Bulan %>', '<%= element.Tahun %>')">
+          <i class="fa fa-comments"></i> Show Saran
+        </button>
+
+        <div class="saran" style="display: none">
+          <% element.Saran.forEach(suggestion => { %>
+          <p><%= suggestion.content %></p>
+          <% }) %>
+        </div>
+
+        <div
+          class="piechart"
+          id="<%= 'piechart_' + element.Bulan + '_' + element.Tahun %>"
+          style="width: 300px; height: 200px; display: none"></div>
+        <script
+          type="text/javascript"
+          src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <script>
+          google.charts.load("current", { packages: ["corechart"] });
+          google.charts.setOnLoadCallback(drawPieChart);
+          function drawPieChart(bulan, tahun) {
+            // Menggunakan data1 yang sudah di-parse
+            var data1 = JSON.parse(
+              decodeURIComponent(
+                "<%= encodeURIComponent(JSON.stringify(data)) %>"
+              )
+            );
+
+            const index = data1.findIndex(
+              (element) => element.Tahun === tahun && element.Bulan === bulan
+            );
+
+            if (index !== -1) {
+              var data = google.visualization.arrayToDataTable([
+                ["Task", "Value"],
+                ["Sangat", data1[0].Sangat],
+                ["Puas", data1[0].Puas],
+                ["Standar", data1[0].Standar],
+                ["Kurang", data1[0].Kurang],
+                ["Tidak Puas", data1[0].Tidak],
+              ]);
+
+              // Display the chart inside the <div> element with id="piechart_[Bulan]_[Tahun]"
+              var chart = new google.visualization.PieChart(
+                document.getElementById("piechart_" + bulan + "_" + tahun)
+              );
+              var options = {
+                backgroundColor: "#FFFFFF",
+              };
+              chart.draw(data, options);
+            } else {
+              // Handle jika tidak ada data yang sesuai
+              console.log(
+                "Data tidak ditemukan untuk tahun " +
+                  tahun +
+                  " dan bulan " +
+                  bulan
+              );
+            }
+          }
+        </script>
+
+        <hr class="hr" />
+      </div>
+      <% }) %>
+    </div>
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+
+      function toggleSaran(button, bulan, tahun) {
+        const saranContainer = button.parentElement.querySelector(".saran");
+        const piechartContainer =
+          button.parentElement.querySelector(".piechart");
+
+        if (
+          saranContainer.style.display === "none" ||
+          !saranContainer.style.display
+        ) {
+          saranContainer.style.display = "block";
+          piechartContainer.style.display = "block";
+          button.textContent = "Hide Saran";
+          drawPieChart(bulan, tahun); // Menggambar grafik pie chart saat menampilkan saran
+        } else {
+          saranContainer.style.display = "none";
+          piechartContainer.style.display = "none";
+          button.textContent = "Show Saran";
+        }
+      }
+    </script>
+
+    <footer class="bg-light text-center fixed-bottom">
+      <!-- Copyright -->
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+        © 2023 Copyright:
+        <a href="https://doma.mfathinhalim.repl.co/">M.Fathin Halim</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

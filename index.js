@@ -1,109 +1,114 @@
-//======================================== 0 Data
+const mongoose = require("mongoose");
+const { mainModel } = require("./models/saran");
+require("dotenv").config();
 
-var data = [];
+// Connect to MongoDB and retrieve data
+mongoose
+  .connect(process.env.MONGODBURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,
+  })
+  .then(() => {
+    return mainModel.find({}, null);
+  })
+  .then((docs) => {
+    // Store the retrieved data in the 'data' array
+    data = docs;
+    // ======================================== 2 SERVER SETUP
+    const path = require("path");
+    const express = require("express");
+    const bodyParser = require("body-parser");
 
-//======================================== 1 SQLITE DATABASE
-const sqlite3 = require('sqlite3').verbose();
-let sql;
+    const app = express();
 
-const db = new sqlite3.Database("./Database.db", sqlite3.OPEN_READWRITE, (err) => {
-    if (err) return console.error(err.message);
-});
+    app.set("view engine", "ejs");
+    app.use(express.static(path.join(__dirname, "/public")));
+    app.use(bodyParser.json());
+    app.use(
+      bodyParser.urlencoded({
+        extended: false,
+      })
+    );
 
-sql = 'SELECT * FROM data';
-db.all(sql, [], (err, rows) => {
-  if (err) return console.error(err.message);
+    // ===================================== 3 SERVER FUNCTION
 
-  rows.forEach((row) => {
-    data.push({
-        "Sangat": row.sangat,
-        "Puas": row.puas,
-        "Standar": row.standar,
-        "Kurang": row.kurang,
-        "Tidak": row.tidak
-    })
-  });
-});
-
-//======================================== 2 SERVER SETUP
-const path = require('path');
-const express = require('express')
-const bodyParser = require('body-parser')
-
-const app = express()
-
-app.set('view engine', 'ejs')
-app.use(express.static(path.join(__dirname, '/public')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}))
-
-//==================================== 3 SERVER FUNCTION
-
-app.get("/", function(req, res) {
-    res.render("home",{
-        data: data
-    })
-});
-
-//================================== Button Function
-app.post("/Sangat", (req, res) => {
-    
-    sql = 'UPDATE data SET sangat = ?';
-    db.run(sql, [data[0].Sangat], (err) => {
-        if (!err){
-            data[0].Sangat++
-            res.redirect("/");
-      };
+    app.get("/", function (req, res) {
+      res.render("home", {
+        data: data,
+      });
     });
-  
-  });
-  app.post("/Puas", (req, res) => {
-      sql = 'UPDATE data SET puas = ?';
-      db.run(sql, [data[0].Puas], (err) => {
-        if (!err){
-            data[0].Puas++;
-            res.redirect("/");
-        };
+
+    app.get("/list", function (req, res) {
+      res.render("list", {
+        data: data,
+      });
     });
-  
-  });
-  app.post("/Standar", (req, res) => {
-      
-      sql = 'UPDATE data SET standar = ?';
-      db.run(sql, [data[0].Standar], (err) => {
-          if (!err){
-          data[0].Standar++;
-          res.redirect("/");
-      };
+
+    // ================================== Button Function
+    app.post("/Post", async (req, res) => {
+      try {
+        const feedback = req.body.feedback;
+        const suggestion = req.body.suggestion || "";
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = ("0" + (date.getMonth() + 1)).slice(-2);
+
+        // Cari data yang sesuai dengan tahun dan bulan saat ini
+        const currentData = data.find(
+          (item) => item.Bulan === month && item.Tahun === year
+        );
+
+        if (currentData) {
+          // Data untuk bulan dan tahun saat ini ditemukan, perbarui data
+          currentData[feedback]++;
+
+          // Tambahkan saran jika ada
+          if (suggestion) {
+            currentData.Saran.push({ content: suggestion });
+          }
+
+          await mainModel.updateOne(
+            { Bulan: month, Tahun: year }, // Perbarui berdasarkan bulan dan tahun
+            {
+              $inc: { [feedback]: 1 },
+              $push: { Saran: { content: suggestion } },
+            }
+          );
+        } else {
+          // Data untuk bulan dan tahun saat ini tidak ditemukan, buat data baru
+          const newData = {
+            Sangat: 0,
+            Puas: 0,
+            Standar: 0,
+            Kurang: 0,
+            Tidak: 0,
+            Bulan: month,
+            Saran: [],
+            Tahun: year,
+          };
+
+          // Increment the selected 'feedback' field in the new data
+          newData[feedback]++;
+
+          await mainModel.create(newData);
+
+          // Update the 'data' array with the new data
+          data.push(newData);
+        }
+
+        res.redirect("/");
+      } catch (error) {
+        console.error("Error:", error);
+        res.status(500).send("Internal Server Error");
+      }
     });
-  
-  });
-  app.post("/kurang", (req, res) => {
-      
-      sql = 'UPDATE data SET kurang = ?';
-      db.run(sql, [data[0].Kurang], (err) => {
-          if (!err){
-              data[0].Kurang++;
-              res.redirect("/");
-      };
+
+    // =================================== 5 START SERVER!
+    app.listen(3000, (req, res) => {
+      Host: process.env.NODE_ENV !== "production" ? "localhost" : "0.0.0.0";
     });
-  
+  })
+  .catch((error) => {
+    console.error("Failed to connect to MongoDB:", error);
   });
-  app.post("/Tidak", (req, res) => {
-      
-      sql = 'UPDATE data SET tidak = ?';
-      db.run(sql, [data[0].Tidak], (err) => {
-          if (!err){
-            data[0].Tidak++;
-            res.redirect("/");
-        };
-    });
-  
-  });
-//=================================== 5 START SERVER!
-app.listen(3000, (req, res) => {
-	Host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
-	console.log("App is running on port 3000")
-})
