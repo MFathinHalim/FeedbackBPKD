@@ -15,7 +15,7 @@ Selamat datang di FeedbackBPKD! Ini adalah aplikasi sederhana yang memungkinkan 
 
 ## Demo
 
-Anda dapat melihat demo aplikasi FeedbackBPKD di [https://feedbackbpkd-demo.com](https://feedbackbpkd-demo.com).
+Anda dapat melihat demo aplikasi FeedbackBPKD di [https://feedbackbpkd-demo.mfathinhalim.repl.co](https://feedbackbpkd-demo.mfathinhalim.repl.co).
 
 ## Persyaratan
 
